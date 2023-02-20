@@ -15,7 +15,7 @@ Now run the command to get help on the "docker build" command
 Which tag has the following text? - *Write the image ID to the file* 
 
 - `--imageid string`
-- `--iidfile string`
+- `--iidfile string` [x] 
 - `--idimage string`
 - `--idfile string`
 
@@ -28,7 +28,7 @@ How many python packages/modules are installed?
 
 - 1
 - 6
-- 3
+- 3 [x]
 - 7
 
 # Prepare Postgres
@@ -54,9 +54,20 @@ Tip: started and finished on 2019-01-15.
 Remember that `lpep_pickup_datetime` and `lpep_dropoff_datetime` columns are in the format timestamp (date and hour+min+sec) and not in date.
 
 - 20689
-- 20530
+- 20530 [x]
 - 17630
 - 21090
+
+```SQL
+SELECT 
+    count(*)
+FROM
+    green_taxi_data
+WHERE
+    CAST(lpep_pickup_datetime AS DATE) = '2019-01-15'
+    AND CAST(lpep_dropoff_datetime AS DATE) = '2019-01-15'
+;
+```
 
 ## Question 4. Largest trip for each day
 
@@ -65,8 +76,19 @@ Use the pick up time for your calculations.
 
 - 2019-01-18
 - 2019-01-28
-- 2019-01-15
+- 2019-01-15 [x]
 - 2019-01-10
+
+```SQL
+SELECT 
+    CAST(lpep_pickup_datetime AS DATE) as day,
+    MAX(trip_distance) as max_trip
+FROM
+    green_taxi_data
+GROUP BY day
+ORDER BY max_trip DESC
+;
+```
 
 ## Question 5. The number of passengers
 
@@ -74,8 +96,21 @@ In 2019-01-01 how many trips had 2 and 3 passengers?
  
 - 2: 1282 ; 3: 266
 - 2: 1532 ; 3: 126
-- 2: 1282 ; 3: 254
+- 2: 1282 ; 3: 254 [x]
 - 2: 1282 ; 3: 274
+
+```SQL
+SELECT 
+    passenger_count,
+    count(*)
+FROM
+    green_taxi_data
+WHERE
+    passenger_count IN (2,3)
+    AND CAST(lpep_pickup_datetime AS DATE) = '2019-01-01'
+GROUP BY passenger_count
+;
+```
 
 
 ## Question 6. Largest tip
@@ -90,6 +125,18 @@ Note: it's not a typo, it's `tip` , not `trip`
 - South Ozone Park
 - Long Island City/Queens Plaza
 
+```SQL
+SELECT 
+    
+FROM
+    green_taxi_data as g
+    JOIN zones as z
+WHERE
+
+GROUP BY
+;
+```
+
 
 ## Submitting the solutions
 
@@ -102,3 +149,18 @@ Deadline: 30 January (Monday), 22:00 CET
 ## Solution
 
 See here: https://www.youtube.com/watch?v=KIh_9tZiroA
+
+
+
+
+
+SELECT 
+	CAST(lpep_dropoff_datetime AS DATE) AS do_day,
+	total_amount
+FROM
+	green_taxi_data
+WHERE
+	CAST(lpep_pickup_datetime AS DATE) = '2019-01-15'
+	AND CAST(lpep_dropoff_datetime AS DATE) = '2019-01-15'
+GROUP BY CAST(lpep_dropoff_datetime AS DATE) AS do_day
+;

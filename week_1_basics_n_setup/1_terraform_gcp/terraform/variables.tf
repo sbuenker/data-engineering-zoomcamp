@@ -22,3 +22,10 @@ variable "BQ_DATASET" {
   type = string
   default = "trips_data_all"
 }
+
+# This is added after watching the video. I’ll uncomment it for now
+# variable "TABLE_NAME" {
+#   description = "BigQuery Table"
+#   type = string
+#   default = "ny_trips"
+# }
