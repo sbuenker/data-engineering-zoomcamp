@@ -123,17 +123,22 @@ Note: it's not a typo, it's `tip` , not `trip`
 - Central Park
 - Jamaica
 - South Ozone Park
-- Long Island City/Queens Plaza
+- Long Island City/Queens Plaza [x]
 
 ```SQL
 SELECT 
-    
+    z2."Zone",
+    max(tip_amount) as max_tip
 FROM
     green_taxi_data as g
-    JOIN zones as z
+    INNER JOIN zones as z ON g."PULocationID" = z."LocationID"
+    INNER JOIN zones as z2 ON g."DOLocationID" = z2."LocationID"
 WHERE
-
+    z."Zone" = 'Astoria'
 GROUP BY
+    z2."Zone"
+ORDER BY 
+    max_tip DESC
 ;
 ```
 
